@@ -10,12 +10,13 @@ export default function Hero() {
 
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight mb-6">
             La infraestructura bancaria para tu{" "}
-            <span className="text-red-600">fintech</span>
+            <span className="text-red-600">negocio</span>
           </h1>
 
           <p className="text-xl text-slate-600 leading-relaxed mb-10 max-w-2xl">
             CVUs, Debin, Pagos QR y conciliación en una sola API.
-            Operá sobre los rieles de un banco regulado sin necesitar licencia bancaria —
+            Cualquier empresa puede operar sobre los rieles de un banco regulado
+            sin necesitar licencia bancaria —
             con el acompañamiento que ningún banco te da.
           </p>
 

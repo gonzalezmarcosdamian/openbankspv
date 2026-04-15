@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
+import WhoIsItFor from "@/components/WhoIsItFor";
 import ProductModules from "@/components/ProductModules";
 import HowItWorks from "@/components/HowItWorks";
 import Differentiator from "@/components/Differentiator";
@@ -14,6 +15,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <SocialProof />
+      <WhoIsItFor />
       <ProductModules />
       <HowItWorks />
       <Differentiator />

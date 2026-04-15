@@ -21,7 +21,7 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <a
-              href="#contacto"
+              href="/openbankspv/#contacto"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors text-base"
             >
               Hablar con el equipo
@@ -30,7 +30,7 @@ export default function Hero() {
               </svg>
             </a>
             <a
-              href="#documentacion"
+              href="/openbankspv/#documentacion"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-medium hover:bg-slate-50 transition-colors text-base"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

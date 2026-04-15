@@ -85,7 +85,7 @@ export default function Differentiator() {
               testear y a salir a producción con confianza.
             </p>
             <a
-              href="#contacto"
+              href="/openbankspv/#contacto"
               className="inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
             >
               Hablar con el equipo

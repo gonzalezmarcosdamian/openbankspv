@@ -101,6 +101,22 @@ check(len(broken_docs) == 0, f'No hay href="/docs" sin basePath (encontrados: {l
 broken_pdf = re.findall(r'href="(/documentacion[^"]*\.pdf)"', index_html)
 check(len(broken_pdf) == 0, f'No hay href al PDF sin basePath (encontrados: {len(broken_pdf)})')
 
+# 9. Navbar: todos los links usan paths absolutos con basePath
+print('\n[ 9 ] Navbar links — paths absolutos (home y docs):')
+for page_name, html in [('index.html', index_html), ('docs/index.html', docs_html)]:
+    for section in ['#contacto', '#producto', '#como-funciona']:
+        full = f'/openbankspv/{section}'
+        check(full in html,                         f'{page_name}: href="{full}" presente')
+        bare_count = len(re.findall(rf'href="({re.escape(section)})"', html))
+        check(bare_count == 0,                      f'{page_name}: sin href="{section}" suelto (encontrados: {bare_count})')
+    check('href="/openbankspv/docs/"' in html,      f'{page_name}: link a /docs/ con basePath')
+    check('href="/openbankspv/"' in html,           f'{page_name}: logo a /openbankspv/')
+
+# 10. Secciones de destino existen en home
+print('\n[ 10 ] Secciones de destino en index.html:')
+for sid in ['producto', 'como-funciona', 'documentacion', 'contacto']:
+    check(f'id="{sid}"' in index_html, f'Seccion #{sid} existe')
+
 # ── RESULTADO ─────────────────────────────────────────────────────
 print('\n' + '='*40)
 if errors:

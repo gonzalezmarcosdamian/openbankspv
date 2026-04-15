@@ -11,18 +11,17 @@ export default function DocsPage() {
     <main className="min-h-screen bg-white">
       <Navbar />
       <div className="pt-28 pb-16 px-6 max-w-6xl mx-auto">
-        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+
+        {/* Header */}
+        <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 bg-amber-50 text-amber-700 text-xs font-medium px-3 py-1 rounded-full border border-amber-200 mb-4">
-              Demo ilustrativa — Endpoints y datos de ejemplo
-            </div>
             <h1 className="text-3xl font-bold text-slate-900">Referencia de la API</h1>
             <p className="text-slate-500 mt-2">
-              Todos los endpoints, parámetros y ejemplos de request/response.
+              Estructura de endpoints, parámetros, campos y ejemplos de respuesta.
             </p>
           </div>
           <a
-            href="/documentacion-api-bank-spv.pdf"
+            href="/openbankspv/documentacion-api-bank-spv.pdf"
             download
             className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors flex-shrink-0"
           >
@@ -33,9 +32,56 @@ export default function DocsPage() {
           </a>
         </div>
 
-        <div className="border border-slate-200 rounded-xl overflow-hidden">
+        {/* Aviso ilustrativo */}
+        <div className="mb-6 flex items-start gap-3 bg-slate-50 border border-slate-200 rounded-xl p-4">
+          <div className="flex-shrink-0 w-5 h-5 text-slate-400 mt-0.5">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-slate-700">Documentación ilustrativa</p>
+            <p className="text-sm text-slate-500 mt-0.5">
+              Esta referencia muestra la estructura real de la API a modo de ejemplo.
+              Los endpoints, credenciales y datos son ficticios.
+              Para acceder al ambiente de sandbox real, <a href="/#contacto" className="underline hover:text-slate-700">contactá al equipo</a>.
+            </p>
+          </div>
+        </div>
+
+        {/* Módulos disponibles — vista rápida */}
+        <div className="mb-6 flex flex-wrap gap-2">
+          {["CVU", "Alias", "Comercios", "Debin", "QR", "Transferencia Pull", "Movimientos"].map((tag) => (
+            <span key={tag} className="text-xs bg-white border border-slate-200 text-slate-600 px-3 py-1 rounded-full font-medium">
+              {tag}
+            </span>
+          ))}
+          <span className="text-xs bg-slate-900 text-white px-3 py-1 rounded-full font-medium">
+            OpenAPI 3.0
+          </span>
+        </div>
+
+        {/* Swagger UI */}
+        <div className="border border-slate-200 rounded-xl overflow-hidden bg-white">
+          <div className="border-b border-slate-100 px-4 py-3 flex items-center justify-between bg-slate-50">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-slate-300"></div>
+              <span className="text-xs text-slate-500 font-mono">openapi/v1.yaml</span>
+            </div>
+            <a
+              href="/openbankspv/openapi/v1.yaml"
+              target="_blank"
+              className="text-xs text-slate-400 hover:text-slate-700 transition-colors flex items-center gap-1"
+            >
+              Ver spec raw
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
           <SwaggerUIComponent url="/openbankspv/openapi/v1.yaml" />
         </div>
+
       </div>
     </main>
   );

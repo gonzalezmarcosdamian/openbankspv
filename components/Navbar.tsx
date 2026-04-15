@@ -5,14 +5,15 @@ import { useState, useEffect } from "react";
 const BASE = "/openbankspv";
 
 export default function Navbar() {
-  const [isDocsPage, setIsDocsPage] = useState(false);
+  const [isDocsPage] = useState(
+    () => typeof window !== "undefined" && window.location.pathname.includes("/docs")
+  );
   const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const onDocs = window.location.pathname.includes("/docs");
-    setIsDocsPage(onDocs);
 
-    if (onDocs) return;
+    if (onDocs) return; // no IntersectionObserver needed on docs page
 
     // Track active section via IntersectionObserver on home page
     const sections = ["producto", "como-funciona", "documentacion", "contacto"];

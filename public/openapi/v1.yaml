@@ -1,0 +1,754 @@
+openapi: 3.0.3
+info:
+  title: API Bank SPV — Integración PSP con COELSA
+  description: |
+    API de Banco Supervielle para la integración de Prestadores de Servicios de Pago (PSP)
+    bajo el esquema de Cesión de Credenciales con COELSA.
+
+    Permite gestionar Cuentas Virtuales (CVU), procesar Debines, Pagos QR,
+    Transferencias Pull y conciliar movimientos.
+
+    > ⚠️ **Demo ilustrativa** — Este spec es un ejemplo a modo de aprendizaje.
+    > Los endpoints, credenciales y datos son ficticios.
+
+    ## Autenticación
+    Todas las operaciones requieren un `Bearer Token` obtenido desde la API de
+    autenticación de COELSA: `POST /auth/token` con las credenciales provistas por Supervielle.
+  version: "1.0"
+  contact:
+    name: Equipo API Bank
+    email: apibank@supervielle.com.ar
+
+servers:
+  - url: https://api.supervielle.com.ar
+    description: Producción
+  - url: https://sandbox.api.supervielle.com.ar
+    description: Sandbox / Testing
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: CVU
+    description: Gestión de Cuentas Virtuales
+  - name: Alias
+    description: Gestión de Alias de CVU
+  - name: Comercios
+    description: Alta y gestión de comercios y actividades
+  - name: Debin
+    description: Operaciones de Débito Inmediato (Debin)
+  - name: QR
+    description: Pagos y cobros mediante QR
+  - name: Pull
+    description: Transferencias Pull (ingreso de dinero)
+  - name: Movimientos
+    description: Conciliación y consulta de movimientos
+
+paths:
+  /apiCVU/CVU/AltaCVU:
+    post:
+      tags: [CVU]
+      summary: Crear CVU
+      description: Da de alta una nueva Cuenta Virtual para un usuario del PSP.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AltaCVURequest"
+            example:
+              cvu:
+                psp_id: 4
+                cta_id: 1
+                cvu: "0000004800000000001263"
+                tipo: "1"
+                cuit: "20333048494"
+                titular: "Juan Pérez"
+                moneda: "032"
+                persona_tipo: "F"
+      responses:
+        "200":
+          description: CVU creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AltaCVUResponse"
+              example:
+                alias:
+                  valor: "PERRO.CASA.LUNA"
+                respuesta:
+                  codigo: "3200"
+                  descripcion: "CVU ACTIVO"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /apiCVU/CVU/ConsultaCVU/{cvu}:
+    get:
+      tags: [CVU]
+      summary: Consultar CVU
+      description: Devuelve los datos de una CVU existente.
+      parameters:
+        - name: cvu
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "0000004800000000001263"
+      responses:
+        "200":
+          description: CVU encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConsultaCVUResponse"
+              example:
+                cvu:
+                  pep: 0
+                  cbu_dia: "0720461088000019563005"
+                  cvu: "0000004800000000001263"
+                  cuit: "20333048494"
+                  titular: "Juan Pérez"
+                  nombre: "Juan Pérez"
+                  persona_tipo: "F"
+                  fecha_alta: "2026-03-20T10:00:00.000Z"
+                  estado:
+                    codigo: "A"
+                    descripcion: "ACTIVO"
+                respuesta:
+                  codigo: "3000"
+                  descripcion: "SE ENCONTRÓ EL CVU SOLICITADO"
+
+  /apiCVU/CVU/BajaCVU/{cvu}/{cuit}:
+    delete:
+      tags: [CVU]
+      summary: Dar de baja CVU
+      description: Realiza una baja lógica de la CVU.
+      parameters:
+        - name: cvu
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cuit
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: CVU dada de baja
+          content:
+            application/json:
+              example:
+                respuesta:
+                  codigo: "3400"
+                  descripcion: "CVU ELIMINADO/INACTIVO"
+
+  /apiCVU/CVU/ModificacionCVU/{cvu}:
+    put:
+      tags: [CVU]
+      summary: Modificar CVU
+      description: Modifica los datos de una CVU existente.
+      parameters:
+        - name: cvu
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              cvu:
+                titular: "Juan M. Pérez"
+                nombre_fantasia: "Juancito"
+      responses:
+        "200":
+          description: CVU modificada
+          content:
+            application/json:
+              example:
+                respuesta:
+                  codigo: "0"
+                  descripcion: "MODIFICACIÓN EXITOSA"
+
+  /apiCVU/Alias/ModificarAlias:
+    post:
+      tags: [Alias]
+      summary: Modificar alias de CVU
+      description: Asigna o modifica el alias de una CVU existente.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              alias:
+                cvu: "0000004800000000001263"
+                alias: "MI.NUEVO.ALIAS"
+      responses:
+        "200":
+          description: Alias modificado
+          content:
+            application/json:
+              example:
+                respuesta:
+                  codigo: "0"
+                  descripcion: "ALIAS MODIFICADO"
+
+  /apiCVU/Alias/ConsultaAlias:
+    post:
+      tags: [Alias]
+      summary: Consultar alias de CVU
+      description: Devuelve el alias actual asociado a una CVU.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              alias:
+                cvu: "0000004800000000001263"
+      responses:
+        "200":
+          description: Alias encontrado
+          content:
+            application/json:
+              example:
+                alias:
+                  valor: "PERRO.CASA.LUNA"
+                  estado: "ACTIVO"
+                respuesta:
+                  codigo: "0"
+                  descripcion: "ALIAS ENCONTRADO"
+
+  /apiComercio/Actividad/AltaActividad:
+    post:
+      tags: [Comercios]
+      summary: Alta de actividad
+      description: Registra una nueva actividad comercial en el sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              actividad:
+                codigo_rubro: "4711"
+                descripcion: "Supermercados y Almacenes"
+      responses:
+        "200":
+          description: Actividad creada
+          content:
+            application/json:
+              example:
+                actividad:
+                  id: "ACT-001"
+                respuesta:
+                  codigo: "0"
+                  descripcion: "ACTIVIDAD CREADA"
+
+  /apiComercio/Comercio/AltaComercio:
+    post:
+      tags: [Comercios]
+      summary: Alta de comercio
+      description: Registra un nuevo comercio asociado a una actividad.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              comercio:
+                nombre: "Kiosco El Sol"
+                cuit: "30712345678"
+                actividad_id: "ACT-001"
+                cvu_recaudadora: "0000004800000000001263"
+                direccion: "Av. Corrientes 1234, CABA"
+                email: "contacto@kioscoelsol.com"
+      responses:
+        "200":
+          description: Comercio creado
+          content:
+            application/json:
+              example:
+                comercio:
+                  id: "COM-789"
+                  estado: "ACTIVO"
+                respuesta:
+                  codigo: "0"
+                  descripcion: "COMERCIO CREADO"
+
+  /apiComercio/Comercio/ConsultaComercio/{id}:
+    get:
+      tags: [Comercios]
+      summary: Consultar comercio
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Comercio encontrado
+          content:
+            application/json:
+              example:
+                comercio:
+                  id: "COM-789"
+                  nombre: "Kiosco El Sol"
+                  estado: "ACTIVO"
+
+  /apiComercio/Comercio/BajaComercio/{id}:
+    delete:
+      tags: [Comercios]
+      summary: Dar de baja comercio
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Comercio dado de baja
+
+  /apiDebin/Debin/ConsultaDebin/{id}:
+    get:
+      tags: [Debin]
+      summary: Consultar Debin
+      description: Devuelve el estado y datos de un Debin existente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "DEB-123456"
+      responses:
+        "200":
+          description: Debin encontrado
+          content:
+            application/json:
+              example:
+                debin:
+                  id: "DEB-123456"
+                  estado: "PENDIENTE"
+                  importe: 5000.00
+                  moneda: "032"
+                  cvu_comprador: "0000004800000000001263"
+                  cvu_vendedor: "0000004800000000001999"
+                  fecha_vencimiento: "2026-04-16T10:00:00Z"
+                  concepto: "VAR"
+
+  /apiDebin/Debin/ConfirmaDebitoCVU:
+    post:
+      tags: [Debin]
+      summary: Confirmar débito CVU
+      description: Confirma la aceptación de un Debin por parte del comprador.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              debin:
+                id: "DEB-123456"
+                cvu_comprador: "0000004800000000001263"
+                acepta: true
+      responses:
+        "200":
+          description: Débito confirmado
+          content:
+            application/json:
+              example:
+                respuesta:
+                  codigo: "0"
+                  descripcion: "DÉBITO CONFIRMADO"
+
+  /apiDebin/Debin/AdhesionRecurrencia:
+    post:
+      tags: [Debin]
+      summary: Adhesión a recurrencia
+      description: Adhiere al comprador a un esquema de débito recurrente.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              recurrencia:
+                cvu_comprador: "0000004800000000001263"
+                cvu_vendedor: "0000004800000000001999"
+                importe_maximo: 10000.00
+                moneda: "032"
+                fecha_inicio: "2026-05-01"
+                periodicidad: "MENSUAL"
+      responses:
+        "200":
+          description: Adhesión creada
+          content:
+            application/json:
+              example:
+                recurrencia:
+                  id: "REC-456"
+                  estado: "ACTIVA"
+                respuesta:
+                  codigo: "0"
+                  descripcion: "ADHESIÓN CREADA"
+
+  /apiDebin/Debin/SolicitudContracargo:
+    post:
+      tags: [Debin]
+      summary: Solicitar contracargo Debin
+      description: Inicia un proceso de contracargo sobre un Debin acreditado.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              contracargo:
+                id_debin: "DEB-123456"
+                motivo: "OPERACION_NO_RECONOCIDA"
+                descripcion: "El titular no reconoce la operación"
+      responses:
+        "200":
+          description: Contracargo iniciado
+          content:
+            application/json:
+              example:
+                contracargo:
+                  id: "CTR-789"
+                  estado: "EN_PROCESO"
+                respuesta:
+                  codigo: "0"
+                  descripcion: "CONTRACARGO INICIADO"
+
+  /apiQR/QR/GenerarDebinQR:
+    post:
+      tags: [QR]
+      summary: Generar QR de cobro
+      description: Genera un QR dinámico para cobrar en punto de venta o app.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              qr:
+                cvu_vendedor: "0000004800000000001263"
+                importe: 1500.00
+                moneda: "032"
+                descripcion: "Compra en local"
+                vencimiento_segundos: 300
+      responses:
+        "200":
+          description: QR generado
+          content:
+            application/json:
+              example:
+                qr:
+                  id: "QR-789456"
+                  imagen_base64: "data:image/png;base64,iVBORw0KGgo..."
+                  string_qr: "00020126330014br.gov.bcb.pix..."
+                  vencimiento: "2026-04-15T12:05:00Z"
+                respuesta:
+                  codigo: "0"
+                  descripcion: "QR GENERADO"
+
+  /apiQR/QR/ConsultaDebinQR/{id}:
+    get:
+      tags: [QR]
+      summary: Consultar QR
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: QR encontrado
+          content:
+            application/json:
+              example:
+                qr:
+                  id: "QR-789456"
+                  estado: "PAGADO"
+                  importe: 1500.00
+                  fecha_pago: "2026-04-15T11:58:00Z"
+
+  /apiQR/QR/CashoutQR:
+    post:
+      tags: [QR]
+      summary: Cashout QR desde CVU
+      description: Procesa un pago QR debitando desde la CVU del comprador.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              cashout:
+                cvu_comprador: "0000004800000000001263"
+                string_qr: "00020126330014br.gov.bcb.pix..."
+                importe: 1500.00
+      responses:
+        "200":
+          description: Pago procesado
+          content:
+            application/json:
+              example:
+                operacion:
+                  id: "CAS-001"
+                  estado: "ACREDITADO"
+                respuesta:
+                  codigo: "0"
+                  descripcion: "PAGO PROCESADO"
+
+  /apiQR/QR/ContrarcargoDebinQR:
+    post:
+      tags: [QR]
+      summary: Contracargo QR
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              contracargo:
+                id_operacion: "CAS-001"
+                motivo: "OPERACION_NO_RECONOCIDA"
+      responses:
+        "200":
+          description: Contracargo iniciado
+
+  /apiTransferencia/Pull/IngresoDinero:
+    post:
+      tags: [Pull]
+      summary: Transferencia Pull — Ingreso de dinero
+      description: Solicita el ingreso de fondos desde un CBU/CVU externo hacia una CVU del PSP.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              pull:
+                cvu_destino: "0000004800000000001263"
+                cbu_origen: "0720461088000019563005"
+                importe: 10000.00
+                concepto: "VAR"
+                referencia: "REF-001"
+      responses:
+        "200":
+          description: Pull iniciado
+          content:
+            application/json:
+              example:
+                pull:
+                  id_operacion: "PULL-456789"
+                  estado: "PENDIENTE"
+                respuesta:
+                  codigo: "0"
+                  descripcion: "OPERACIÓN INICIADA"
+
+  /apiTransferencia/Pull/Contracargo:
+    post:
+      tags: [Pull]
+      summary: Contracargo Pull
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              contracargo:
+                id_operacion: "PULL-456789"
+                motivo: "ERROR_OPERACION"
+      responses:
+        "200":
+          description: Contracargo iniciado
+
+  /apiMovimientos/Movimientos/ConsultaMovimientos:
+    get:
+      tags: [Movimientos]
+      summary: Consultar movimientos
+      description: Devuelve el listado de movimientos de una CVU para conciliación.
+      parameters:
+        - name: cvu
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: fecha_desde
+          in: query
+          schema:
+            type: string
+            format: date
+            example: "2026-04-01"
+        - name: fecha_hasta
+          in: query
+          schema:
+            type: string
+            format: date
+            example: "2026-04-15"
+        - name: tipo
+          in: query
+          schema:
+            type: string
+            enum: [TODOS, DEBIN, QR, PULL, CASHOUT]
+            default: TODOS
+        - name: pagina
+          in: query
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: Movimientos encontrados
+          content:
+            application/json:
+              example:
+                movimientos:
+                  - id: "MOV-001"
+                    tipo: "DEBIN"
+                    importe: 5000.00
+                    moneda: "032"
+                    fecha: "2026-04-10T14:30:00Z"
+                    estado: "ACREDITADO"
+                    referencia: "DEB-123456"
+                  - id: "MOV-002"
+                    tipo: "QR"
+                    importe: 1500.00
+                    moneda: "032"
+                    fecha: "2026-04-11T09:15:00Z"
+                    estado: "ACREDITADO"
+                    referencia: "QR-789456"
+                total_registros: 2
+                pagina: 1
+                total_paginas: 1
+
+  /apiMovimientos/Movimientos/ConsultaSaldo/{cvu}:
+    get:
+      tags: [Movimientos]
+      summary: Consultar saldo de CVU
+      parameters:
+        - name: cvu
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Saldo consultado
+          content:
+            application/json:
+              example:
+                saldo:
+                  cvu: "0000004800000000001263"
+                  disponible: 25000.00
+                  moneda: "032"
+                  fecha_consulta: "2026-04-15T10:00:00Z"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Token obtenido desde la API de autenticación de COELSA.
+
+  schemas:
+    AltaCVURequest:
+      type: object
+      properties:
+        cvu:
+          type: object
+          required: [psp_id, cta_id, cuit, titular, moneda, persona_tipo]
+          properties:
+            psp_id:
+              type: integer
+              description: Identificador del PSP
+            cta_id:
+              type: integer
+              description: Identificador de la cuenta recaudadora
+            cvu:
+              type: string
+              description: Número de CVU (22 dígitos)
+            tipo:
+              type: string
+              default: "1"
+            cuit:
+              type: string
+              description: CUIT del titular
+            titular:
+              type: string
+            moneda:
+              type: string
+              enum: ["032", "840"]
+              description: "032 = Pesos / 840 = Dólares"
+            persona_tipo:
+              type: string
+              enum: ["F", "J"]
+              description: "F = Física / J = Jurídica"
+
+    AltaCVUResponse:
+      type: object
+      properties:
+        alias:
+          type: object
+          properties:
+            valor:
+              type: string
+        respuesta:
+          $ref: "#/components/schemas/Respuesta"
+
+    ConsultaCVUResponse:
+      type: object
+      properties:
+        cvu:
+          type: object
+          properties:
+            pep:
+              type: integer
+            cbu_dia:
+              type: string
+            cvu:
+              type: string
+            cuit:
+              type: string
+            titular:
+              type: string
+            persona_tipo:
+              type: string
+            fecha_alta:
+              type: string
+              format: date-time
+            estado:
+              type: object
+              properties:
+                codigo:
+                  type: string
+                descripcion:
+                  type: string
+        respuesta:
+          $ref: "#/components/schemas/Respuesta"
+
+    Respuesta:
+      type: object
+      properties:
+        codigo:
+          type: string
+        descripcion:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Datos de entrada inválidos
+      content:
+        application/json:
+          example:
+            respuesta:
+              codigo: "3298"
+              descripcion: "JSON INCORRECTO"
+    Unauthorized:
+      description: Token inválido o expirado
+      content:
+        application/json:
+          example:
+            error: "Unauthorized"
+            message: "Token inválido o expirado"

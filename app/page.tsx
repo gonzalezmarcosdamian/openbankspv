@@ -4,6 +4,7 @@ import SocialProof from "@/components/SocialProof";
 import ProductModules from "@/components/ProductModules";
 import HowItWorks from "@/components/HowItWorks";
 import Differentiator from "@/components/Differentiator";
+import DocSection from "@/components/DocSection";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
 
@@ -16,6 +17,7 @@ export default function Home() {
       <ProductModules />
       <HowItWorks />
       <Differentiator />
+      <DocSection />
       <ContactForm />
       <Footer />
     </main>

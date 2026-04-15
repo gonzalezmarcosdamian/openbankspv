@@ -2,12 +2,36 @@ const points = [
   {
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+    ),
+    title: "Optimizada para desarrollo con IA",
+    description: (
+      <>
+        Incluye{" "}
+        <a href="/llms.txt" target="_blank" className="underline underline-offset-2 hover:text-red-600 transition-colors">
+          llms.txt
+        </a>{" "}
+        y{" "}
+        <a href="/AGENTS.md" target="_blank" className="underline underline-offset-2 hover:text-red-600 transition-colors">
+          AGENTS.md
+        </a>{" "}
+        para que herramientas como Copilot, Cursor o Claude Code tengan contexto
+        completo de la API y aceleren la integración sin fricción.
+      </>
+    ),
+    highlight: true,
+  },
+  {
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
       </svg>
     ),
     title: "Equipo técnico directo",
     description:
       "No abrís un ticket y esperás. Tenés una línea directa con el equipo que conoce la API por dentro.",
+    highlight: false,
   },
   {
     icon: (
@@ -18,6 +42,7 @@ const points = [
     title: "Sandbox real, no mockeado",
     description:
       "El ambiente de testing opera sobre la misma infraestructura que producción. Lo que funciona ahí, funciona en vivo.",
+    highlight: false,
   },
   {
     icon: (
@@ -28,6 +53,7 @@ const points = [
     title: "Documentación técnica completa",
     description:
       "Endpoints, ejemplos reales, códigos de error y diagramas de flujo. Todo lo que tu equipo necesita para integrar sin sorpresas.",
+    highlight: false,
   },
   {
     icon: (
@@ -38,6 +64,7 @@ const points = [
     title: "Infraestructura regulada desde el día 1",
     description:
       "Operás bajo el paraguas regulatorio de Banco Supervielle. Sin los riesgos de construir infraestructura propia.",
+    highlight: false,
   },
 ];
 
@@ -68,13 +95,43 @@ export default function Differentiator() {
 
           <div className="grid grid-cols-1 gap-4">
             {points.map((point) => (
-              <div key={point.title} className="flex gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
-                <div className="flex-shrink-0 w-10 h-10 bg-red-50 text-red-600 rounded-lg flex items-center justify-center">
+              <div
+                key={point.title}
+                className={`flex gap-4 p-4 rounded-xl transition-colors ${
+                  point.highlight
+                    ? "bg-slate-900 border border-slate-700"
+                    : "hover:bg-slate-50"
+                }`}
+              >
+                <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
+                  point.highlight ? "bg-white/10 text-white" : "bg-red-50 text-red-600"
+                }`}>
                   {point.icon}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 mb-1">{point.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{point.description}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className={`font-semibold ${point.highlight ? "text-white" : "text-slate-900"}`}>
+                      {point.title}
+                    </h3>
+                    {point.highlight && (
+                      <span className="text-xs bg-red-600 text-white px-2 py-0.5 rounded font-medium">Nuevo</span>
+                    )}
+                  </div>
+                  <div className={`text-sm leading-relaxed ${point.highlight ? "text-slate-300" : "text-slate-500"}`}>
+                    {point.description}
+                  </div>
+                  {point.highlight && (
+                    <div className="flex gap-3 mt-3">
+                      <a href="/llms.txt" target="_blank" className="inline-flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 text-slate-200 px-2 py-1 rounded font-mono transition-colors">
+                        /llms.txt
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                      </a>
+                      <a href="/AGENTS.md" target="_blank" className="inline-flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 text-slate-200 px-2 py-1 rounded font-mono transition-colors">
+                        /AGENTS.md
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

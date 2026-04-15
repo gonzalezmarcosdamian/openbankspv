@@ -1,0 +1,99 @@
+# API Bank SPV — Contexto para LLMs
+
+> Este archivo provee contexto estructurado para modelos de lenguaje (LLMs) y
+> herramientas de coding asistido por IA (Copilot, Cursor, Claude Code, etc.)
+> que integren con la API de Banco Supervielle.
+
+## Qué es este producto
+
+API Bank SPV es la API de Banco Supervielle para Prestadores de Servicios de Pago (PSP).
+Permite operar sobre infraestructura bancaria regulada (COELSA) sin necesitar licencia bancaria.
+
+Opera bajo el esquema de **Cesión de Credenciales**: el PSP recibe credenciales de COELSA
+a través de Supervielle y opera directamente sobre la infraestructura de pagos.
+
+## Autenticación
+
+Todas las llamadas requieren un Bearer Token obtenido desde la API de autenticación de COELSA.
+
+```
+POST https://auth.coelsa.com.ar/token
+Authorization: Basic {base64(client_id:client_secret)}
+```
+
+El token resultante se usa como:
+```
+Authorization: Bearer {token}
+```
+
+## Base URLs
+
+- Producción: `https://api.supervielle.com.ar`
+- Sandbox: `https://sandbox.api.supervielle.com.ar`
+
+## Módulos disponibles
+
+### 1. CVU — Cuentas Virtuales (`/apiCVU/CVU/`)
+
+Gestión completa de cuentas virtuales para usuarios del PSP.
+
+- `POST /apiCVU/CVU/AltaCVU` — Crear CVU. Campos: psp_id, cta_id, cuit, titular, moneda (032=ARS/840=USD), persona_tipo (F/J)
+- `GET /apiCVU/CVU/ConsultaCVU/{cvu}` — Consultar datos y estado de una CVU
+- `DELETE /apiCVU/CVU/BajaCVU/{cvu}/{cuit}` — Baja lógica de CVU
+- `PUT /apiCVU/CVU/ModificacionCVU/{cvu}` — Modificar datos de CVU
+
+### 2. Alias (`/apiCVU/Alias/`)
+
+- `POST /apiCVU/Alias/ModificarAlias` — Cambiar alias de una CVU
+- `POST /apiCVU/Alias/ConsultaAlias` — Consultar alias actual
+
+### 3. Comercios (`/apiComercio/`)
+
+- `POST /apiComercio/Actividad/AltaActividad` — Registrar actividad comercial
+- `POST /apiComercio/Comercio/AltaComercio` — Dar de alta un comercio
+- `GET /apiComercio/Comercio/ConsultaComercio/{id}` — Consultar comercio
+- `DELETE /apiComercio/Comercio/BajaComercio/{id}` — Baja de comercio
+- `PUT /apiComercio/Comercio/ModificacionComercio/{id}` — Modificar comercio
+
+### 4. Debin (`/apiDebin/Debin/`)
+
+Débito Inmediato: el vendedor inicia el cobro, el comprador acepta.
+
+- `GET /apiDebin/Debin/ConsultaDebin/{id}` — Consultar estado de un Debin
+- `POST /apiDebin/Debin/ConfirmaDebitoCVU` — El comprador acepta el débito
+- `POST /apiDebin/Debin/AdhesionRecurrencia` — Adhesión a débito recurrente automático
+- `POST /apiDebin/Debin/SolicitudContracargo` — Iniciar contracargo
+
+### 5. Pagos QR (`/apiQR/QR/`)
+
+- `POST /apiQR/QR/GenerarDebinQR` — Generar QR dinámico para cobro (rol vendedor/adquierente)
+- `GET /apiQR/QR/ConsultaDebinQR/{id}` — Consultar estado de QR
+- `POST /apiQR/QR/CashoutQR` — Pagar QR debitando desde CVU (rol comprador)
+- `POST /apiQR/QR/ContrarcargoDebinQR` — Contracargo sobre pago QR
+
+### 6. Transferencia Pull (`/apiTransferencia/Pull/`)
+
+Ingreso de fondos desde CBU/CVU externo hacia CVU del PSP.
+
+- `POST /apiTransferencia/Pull/IngresoDinero` — Iniciar pull de fondos
+- `POST /apiTransferencia/Pull/Contracargo` — Contracargo sobre pull
+
+### 7. Movimientos (`/apiMovimientos/Movimientos/`)
+
+Conciliación de operaciones.
+
+- `GET /apiMovimientos/Movimientos/ConsultaMovimientos` — Listar movimientos (filtros: cvu, fecha_desde, fecha_hasta, tipo)
+- `GET /apiMovimientos/Movimientos/ConsultaSaldo/{cvu}` — Saldo disponible de una CVU
+
+## Spec OpenAPI completo
+
+`https://gonzalezmarcosdamian.github.io/openbankspv/openapi/v1.yaml`
+
+## Patrones de error
+
+Todas las respuestas incluyen un objeto `respuesta` con `codigo` y `descripcion`.
+Los códigos de error son específicos por módulo (ej: 3200-3299 para CVU, 0 = éxito general).
+
+## Contacto técnico
+
+apibank@supervielle.com.ar

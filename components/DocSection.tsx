@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function DocSection() {
   return (
     <section id="documentacion" className="py-24 px-6 bg-slate-50">
@@ -11,7 +13,7 @@ export default function DocSection() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Swagger / API Reference */}
-          <a
+          <Link
             href="/docs"
             className="group flex items-start gap-5 p-6 bg-white border border-slate-200 rounded-xl hover:border-red-200 hover:shadow-md transition-all"
           >
@@ -36,11 +38,11 @@ export default function DocSection() {
                 ))}
               </div>
             </div>
-          </a>
+          </Link>
 
           {/* PDF Download */}
           <a
-            href="/documentacion-api-bank-spv.pdf"
+            href="/openbankspv/documentacion-api-bank-spv.pdf"
             download
             className="group flex items-start gap-5 p-6 bg-white border border-slate-200 rounded-xl hover:border-red-200 hover:shadow-md transition-all"
           >

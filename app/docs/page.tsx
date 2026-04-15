@@ -1,9 +1,11 @@
 import Navbar from "@/components/Navbar";
 
 export const metadata = {
-  title: "Documentación API — API Bank SPV",
-  description: "Referencia técnica completa de los endpoints de API Bank SPV.",
+  title: "Documentacion API — API Bank SPV",
+  description: "Referencia tecnica completa de los endpoints de API Bank SPV.",
 };
+
+const BASE = "/openbankspv";
 
 export default function DocsPage() {
   return (
@@ -16,11 +18,11 @@ export default function DocsPage() {
           <div>
             <h1 className="text-3xl font-bold text-slate-900">Referencia de la API</h1>
             <p className="text-slate-500 mt-2">
-              Estructura de endpoints, parámetros, campos y ejemplos de respuesta.
+              Estructura de endpoints, parametros, campos y ejemplos de respuesta.
             </p>
           </div>
           <a
-            href="/openbankspv/documentacion-api-bank-spv.pdf"
+            href={`${BASE}/documentacion-api-bank-spv.pdf`}
             download
             className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors flex-shrink-0"
           >
@@ -37,16 +39,16 @@ export default function DocsPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <div>
-            <p className="text-sm font-medium text-slate-700">Documentación ilustrativa</p>
+            <p className="text-sm font-medium text-slate-700">Documentacion ilustrativa</p>
             <p className="text-sm text-slate-500 mt-0.5">
               Esta referencia muestra la estructura real de la API a modo de ejemplo.
               Los endpoints y datos son ficticios. Para acceder al sandbox real,{" "}
-              <a href="/#contacto" className="underline hover:text-slate-700">contactá al equipo</a>.
+              <a href={`${BASE}/#contacto`} className="underline hover:text-slate-700">contacta al equipo</a>.
             </p>
           </div>
         </div>
 
-        {/* Tags módulos */}
+        {/* Tags modulos */}
         <div className="mb-5 flex flex-wrap gap-2">
           {["CVU", "Alias", "Comercios", "Debin", "QR", "Transferencia Pull", "Movimientos"].map((tag) => (
             <span key={tag} className="text-xs bg-white border border-slate-200 text-slate-600 px-3 py-1 rounded-full font-medium">
@@ -64,7 +66,7 @@ export default function DocsPage() {
               <span className="text-xs text-slate-500 font-mono">openapi/v1.yaml</span>
             </div>
             <a
-              href="/openbankspv/openapi/v1.yaml"
+              href={`${BASE}/openapi/v1.yaml`}
               target="_blank"
               className="text-xs text-slate-400 hover:text-slate-700 transition-colors flex items-center gap-1"
             >
@@ -75,7 +77,7 @@ export default function DocsPage() {
             </a>
           </div>
           <iframe
-            src="/openbankspv/swagger.html"
+            src={`${BASE}/swagger.html`}
             className="w-full"
             style={{ height: "80vh", border: "none" }}
             title="API Reference"

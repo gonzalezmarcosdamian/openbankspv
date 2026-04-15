@@ -1,3 +1,5 @@
+const BASE = "/openbankspv";
+
 const points = [
   {
     icon: (
@@ -9,11 +11,11 @@ const points = [
     description: (
       <>
         Incluye{" "}
-        <a href="/llms.txt" target="_blank" className="underline underline-offset-2 hover:text-red-600 transition-colors">
+        <a href={`${BASE}/llms.txt`} target="_blank" className="underline underline-offset-2 hover:text-red-600 transition-colors">
           llms.txt
         </a>{" "}
         y{" "}
-        <a href="/AGENTS.md" target="_blank" className="underline underline-offset-2 hover:text-red-600 transition-colors">
+        <a href={`${BASE}/AGENTS.md`} target="_blank" className="underline underline-offset-2 hover:text-red-600 transition-colors">
           AGENTS.md
         </a>{" "}
         para que herramientas como Copilot, Cursor o Claude Code tengan contexto
@@ -122,11 +124,11 @@ export default function Differentiator() {
                   </div>
                   {point.highlight && (
                     <div className="flex gap-3 mt-3">
-                      <a href="/llms.txt" target="_blank" className="inline-flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 text-slate-200 px-2 py-1 rounded font-mono transition-colors">
+                      <a href={`${BASE}/llms.txt`} target="_blank" className="inline-flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 text-slate-200 px-2 py-1 rounded font-mono transition-colors">
                         /llms.txt
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                       </a>
-                      <a href="/AGENTS.md" target="_blank" className="inline-flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 text-slate-200 px-2 py-1 rounded font-mono transition-colors">
+                      <a href={`${BASE}/AGENTS.md`} target="_blank" className="inline-flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 text-slate-200 px-2 py-1 rounded font-mono transition-colors">
                         /AGENTS.md
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                       </a>

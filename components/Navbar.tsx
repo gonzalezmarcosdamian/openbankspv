@@ -1,16 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const BASE = "/openbankspv";
 
 export default function Navbar() {
-  const pathname = usePathname();
-  const isHome = pathname === "/" || pathname === "";
+  const onDocsPage = () =>
+    typeof window !== "undefined" &&
+    window.location.pathname.includes("/docs");
 
-  const anchor = (hash: string) =>
-    isHome ? hash : `${BASE}/${hash}`;
+  const contactHref = () => (onDocsPage() ? `${BASE}/#contacto` : "#contacto");
+  const productoHref = () => (onDocsPage() ? `${BASE}/#producto` : "#producto");
+  const comoHref = () => (onDocsPage() ? `${BASE}/#como-funciona` : "#como-funciona");
 
   return (
     <>
@@ -19,23 +20,23 @@ export default function Navbar() {
       </div>
       <nav className="fixed top-10 left-0 right-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
+          <a href={`${BASE}/`} className="flex items-center gap-2">
             <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">S</span>
             </div>
             <span className="font-semibold text-slate-900">API Bank</span>
             <span className="text-slate-400 text-sm ml-1">by Supervielle</span>
-          </Link>
+          </a>
           <div className="hidden md:flex items-center gap-8 text-sm text-slate-600">
-            <a href={anchor("#producto")} className="hover:text-slate-900 transition-colors">Producto</a>
-            <a href={anchor("#como-funciona")} className="hover:text-slate-900 transition-colors">Como funciona</a>
-            <Link href="/docs" className="hover:text-slate-900 transition-colors">Documentacion</Link>
+            <a href={productoHref()} className="hover:text-slate-900 transition-colors">Producto</a>
+            <a href={comoHref()} className="hover:text-slate-900 transition-colors">Como funciona</a>
+            <a href={`${BASE}/docs/`} className="hover:text-slate-900 transition-colors">Documentacion</a>
           </div>
           <div className="flex items-center gap-3">
-            <a href={anchor("#contacto")} className="text-sm text-slate-600 hover:text-slate-900 transition-colors hidden md:block">
+            <a href={contactHref()} className="text-sm text-slate-600 hover:text-slate-900 transition-colors hidden md:block">
               Hablar con el equipo
             </a>
-            <a href={anchor("#contacto")} className="text-sm bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium">
+            <a href={contactHref()} className="text-sm bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium">
               Empezar
             </a>
           </div>

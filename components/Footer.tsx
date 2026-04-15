@@ -9,10 +9,12 @@ export default function Footer() {
           <span className="text-white font-medium text-sm">API Bank</span>
           <span className="text-slate-500 text-sm">· Banco Supervielle S.A.</span>
         </div>
-        <div className="flex items-center gap-6 text-sm text-slate-500">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-sm text-slate-500">
           <a href="#producto" className="hover:text-slate-300 transition-colors">Producto</a>
           <a href="#como-funciona" className="hover:text-slate-300 transition-colors">Cómo funciona</a>
           <a href="#contacto" className="hover:text-slate-300 transition-colors">Contacto</a>
+        </div>
+        <div className="text-sm text-slate-500">
           <a href="mailto:apibank@supervielle.com.ar" className="hover:text-slate-300 transition-colors">
             apibank@supervielle.com.ar
           </a>

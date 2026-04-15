@@ -18,10 +18,10 @@ export default function ContactForm() {
   return (
     <section id="contacto" className="py-24 px-6 bg-slate-900">
       <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <div>
             <h2 className="text-3xl font-bold text-white mb-4">
-              ¿Listo para integrar?
+              Empezá la conversación
             </h2>
             <p className="text-slate-400 text-lg mb-8 leading-relaxed">
               Contanos sobre tu proyecto. En menos de 48 horas te contacta
@@ -43,7 +43,7 @@ export default function ContactForm() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-8">
+          <div className="bg-white rounded-2xl p-5 sm:p-8">
             {submitted ? (
               <div className="text-center py-8">
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -56,7 +56,7 @@ export default function ContactForm() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Nombre</label>
                     <input
@@ -129,7 +129,7 @@ export default function ContactForm() {
                   disabled={loading}
                   className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {loading ? "Enviando..." : "Hablar con el equipo"}
+                  {loading ? "Enviando..." : "Enviar consulta"}
                 </button>
                 <p className="text-xs text-slate-400 text-center">
                   Tu información es confidencial y no se comparte con terceros.

@@ -45,8 +45,8 @@ export default function HowItWorks() {
               {i < steps.length - 1 && (
                 <div className="hidden lg:block absolute top-6 left-full w-full h-px bg-slate-200 z-0" style={{ width: "calc(100% - 2rem)" }} />
               )}
-              <div className="bg-white border border-slate-200 rounded-xl p-6 relative z-10 h-full">
-                <div className="text-3xl font-bold text-red-100 mb-4">{step.number}</div>
+              <div className="bg-white border border-slate-200 border-l-4 border-l-red-200 rounded-xl p-6 relative z-10 h-full">
+                <div className="text-3xl font-bold text-red-200 mb-4">{step.number}</div>
                 <h3 className="font-semibold text-slate-900 mb-2">{step.title}</h3>
                 <p className="text-sm text-slate-500 leading-relaxed">{step.description}</p>
               </div>

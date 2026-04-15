@@ -16,9 +16,9 @@ export default function Home() {
       <Hero />
       <SocialProof />
       <WhoIsItFor />
+      <Differentiator />
       <ProductModules />
       <HowItWorks />
-      <Differentiator />
       <DocSection />
       <ContactForm />
       <Footer />

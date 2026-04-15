@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="pt-40 pb-24 px-6 bg-gradient-to-b from-slate-50 to-white">
+    <section className="pt-28 md:pt-40 pb-24 px-6 bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-6xl mx-auto">
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 bg-red-50 text-red-700 text-sm font-medium px-3 py-1 rounded-full mb-8 border border-red-100">
@@ -8,22 +8,21 @@ export default function Hero() {
             Infraestructura regulada · Banco Supervielle S.A.
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight mb-6">
-            La infraestructura bancaria para tu{" "}
-            <span className="text-red-600">negocio</span>
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 leading-tight mb-6">
+            Pagos bancarios integrados{" "}
+            <span className="text-red-600">en tu producto</span>
           </h1>
 
           <p className="text-xl text-slate-600 leading-relaxed mb-10 max-w-2xl">
             CVUs, Debin, Pagos QR y conciliación en una sola API.
-            Cualquier empresa puede operar sobre los rieles de un banco regulado
-            sin necesitar licencia bancaria —
-            con el acompañamiento que ningún banco te da.
+            Operá sobre los rieles de un banco regulado sin necesitar licencia propia —
+            con el acompañamiento técnico que ningún banco te da.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <a
               href="#contacto"
-              className="inline-flex items-center justify-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors text-base"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors text-base"
             >
               Hablar con el equipo
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +31,7 @@ export default function Hero() {
             </a>
             <a
               href="#documentacion"
-              className="inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-medium hover:bg-slate-50 transition-colors text-base"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-medium hover:bg-slate-50 transition-colors text-base"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -43,7 +42,7 @@ export default function Hero() {
         </div>
 
         {/* Code snippet decorativo */}
-        <div className="mt-16 bg-slate-900 rounded-2xl p-6 max-w-2xl font-mono text-sm shadow-2xl">
+        <div className="mt-16 bg-slate-900 rounded-2xl p-6 max-w-2xl font-mono text-sm shadow-2xl overflow-x-auto">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-3 h-3 rounded-full bg-red-500"></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>

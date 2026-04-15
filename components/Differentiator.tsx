@@ -77,7 +77,7 @@ export default function Differentiator() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
-              El acompañamiento que ningún banco te da
+              Lo que ningún otro banco te ofrece
             </h2>
             <p className="text-lg text-slate-500 mb-8">
               La documentación técnica es solo el principio. La diferencia está
@@ -116,7 +116,7 @@ export default function Differentiator() {
                       {point.title}
                     </h3>
                     {point.highlight && (
-                      <span className="text-xs bg-red-600 text-white px-2 py-0.5 rounded font-medium">Nuevo</span>
+                      <span className="text-xs bg-red-600 text-white px-2 py-0.5 rounded font-medium">AI-ready</span>
                     )}
                   </div>
                   <div className={`text-sm leading-relaxed ${point.highlight ? "text-slate-300" : "text-slate-500"}`}>

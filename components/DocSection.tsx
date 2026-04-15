@@ -1,4 +1,4 @@
-import Link from "next/link";
+const BASE = "/openbankspv";
 
 export default function DocSection() {
   return (
@@ -13,8 +13,8 @@ export default function DocSection() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Swagger / API Reference */}
-          <Link
-            href="/docs"
+          <a
+            href={`${BASE}/docs/`}
             className="group flex items-start gap-5 p-6 bg-white border border-slate-200 rounded-xl hover:border-red-200 hover:shadow-md transition-all"
           >
             <div className="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-red-600 transition-colors">
@@ -38,7 +38,7 @@ export default function DocSection() {
                 ))}
               </div>
             </div>
-          </Link>
+          </a>
 
           {/* PDF Download */}
           <a
